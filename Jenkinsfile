@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages { 
-        // Stage 0: Cleanup Workspace
+        // Stage 0: Cleanup Workspace..
         stage("Cleanup Workspace") {
             steps {
                 // Remove existing workspace
