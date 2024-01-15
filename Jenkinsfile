@@ -42,7 +42,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 // Print a message indicating that the container is being deployed
-                bat echo "Deploying the Container"
+                bat 'echo Deploying the Container'
             }
         }
     }
