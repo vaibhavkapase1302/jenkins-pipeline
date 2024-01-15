@@ -2,6 +2,14 @@ pipeline {
     agent any
     
     stages { 
+        // Stage 0: Cleanup Workspace
+        stage("Cleanup Workspace") {
+            steps {
+                // Remove existing workspace
+                cleanWs()
+            }
+        }
+
         // Stage 1: Clone the Code
         stage("Clone the Code") {
             steps {
@@ -16,8 +24,8 @@ pipeline {
         // Stage 2: Build
         stage("Build") {
             steps { 
-                // Build a Docker image with a specified tag
-                bat "docker build -t new-flask-app-v2 ."
+                // Build a Docker image with a specified tag and adjust build context
+                bat "docker build -t new-flask-app-v2:version-v2 ${WORKSPACE}"
             }
         }
 
@@ -27,13 +35,13 @@ pipeline {
                 // Define the credentials for Docker Hub
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: "dockerHubPass", usernameVariable: 'dockerHubUser')]) {
                     // Tag the Docker image with the Docker Hub repository information
-                    bat "docker tag new-flask-app-v2 ${env.dockerHubUser}/new-flask-app-v2:latest"
+                    bat "docker tag new-flask-app-v2 ${env.dockerHubUser}/new-flask-app-v2:version-v2"
                     
                     // Log in to Docker Hub using the provided credentials
                     bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
                     
                     // Push the Docker image to Docker Hub
-                    bat "docker push ${env.dockerHubUser}/new-flask-app-v2:latest"
+                    bat "docker push ${env.dockerHubUser}/new-flask-app-v2:version-v2"
                 }
             }
         }
