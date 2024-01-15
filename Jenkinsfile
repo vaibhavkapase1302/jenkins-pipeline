@@ -41,8 +41,7 @@ pipeline {
 
         stage("Deploy") {
             steps {
-                bat 'echo Deploying the Container'
-            }
+                helloWorld()            }
         }
     }
 }
