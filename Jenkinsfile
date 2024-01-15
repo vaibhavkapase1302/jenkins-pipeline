@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages { 
-        // Stage 0: Cleanup Workspace..
+        // Stage 0: Cleanup Workspace
         stage("Cleanup Workspace") {
             steps {
                 // Remove existing workspace
@@ -25,7 +25,7 @@ pipeline {
         stage("Build") {
             steps { 
                 // Build a Docker image with a specified tag and adjust build context
-                bat "docker build -t new-flask-app-v2:version-v2 ${WORKSPACE}"
+                bat "docker build -t new-flask-app-v2:version-v2 ."
             }
         }
 
