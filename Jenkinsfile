@@ -1,3 +1,4 @@
+@Library ('My-Jenkins-SharedLibrary') _
 pipeline {
     agent any
     
@@ -41,7 +42,9 @@ pipeline {
 
         stage("Deploy") {
             steps {
-                echo "Deploying the Container"
+                scripts {
+                    hello()
+                }
             }
         }
     }
